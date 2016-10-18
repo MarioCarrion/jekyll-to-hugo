@@ -3,6 +3,8 @@
 //    Keep only those in the `frontmatterWhitelist` variable
 // 2. Fixing permalinks
 //    `url: /2016/10/11/something/` ---> `url: /2016/10/11/something.html`
+//
+// go run main.go "/Users/mario/Repositories/mariocarrion.github.com/content/post"
 package main
 
 import (
@@ -13,8 +15,6 @@ import (
 	"path/filepath"
 	"strings"
 )
-
-const prefix = "/Users/mario/Repositories/mariocarrion.github.com/content/post"
 
 var frontmatterWhitelist = [...]string{
 	"date:",
@@ -95,7 +95,7 @@ func walkFunc(path string, info os.FileInfo, err error) error {
 }
 
 func main() {
-	err := filepath.Walk(prefix, walkFunc)
+	err := filepath.Walk(strings.Join(os.Args[1:], ""), walkFunc)
 	if err != nil {
 		log.Fatal(err)
 	}
